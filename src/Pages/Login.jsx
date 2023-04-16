@@ -1,8 +1,8 @@
 import React from 'react'
-import LoginComponents from '../components/LoginComponents'
+import LoginComponent from '../components/LoginComponent'
 
 export default function Login() {
   return (
-    <LoginComponents />
+    <LoginComponent />
   )
 }
