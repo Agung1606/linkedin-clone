@@ -10,15 +10,19 @@ export default function RegisterComponent() {
     const goToLogin = () => navigate('/')
     const goToHome = () => navigate('/home');
 
+    const [loading, setLoading] = useState(false)
     const [ credentials, setCredentials ] = useState({});
     const register = async () => {
+        setLoading(true)
         try {
             let res = await RegisterAPI(credentials.email, credentials.password);
             toast.success('Account Created!');
+            goToHome()
         } catch (error) {
             console.log(error);
-            toast.error('Cannot create your account')
-        }
+            toast.error(error.message.replace("Firebase: Error", ""));
+          }
+        setLoading(false)
     };
 
     return (
@@ -52,8 +56,8 @@ export default function RegisterComponent() {
               placeholder="Password (6 or more characters)"
             />
           </div>
-          <button className='login-btn'>
-            Agree & Join
+          <button onClick={register} className='login-btn'>
+            {loading ? "loading..." : "Agree & Join"}
           </button>
         </div>
         <hr className='hr-text' data-content='or' />

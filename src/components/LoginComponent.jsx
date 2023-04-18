@@ -9,21 +9,25 @@ import { useNavigate } from "react-router-dom";
 export default function LoginComponent() {
   const navigate = useNavigate();
   const goToRegister = () => navigate('/register')
+  const goToHome = () => navigate("/home");
 
+  const [loading, setLoading] = useState(false);
   const [credentials, setCredentials] = useState({});
   const login = async () => {
+    setLoading(true)
     try {
       let res = await LoginAPI(credentials.email, credentials.password);
       toast.success('Sign In to Linkedin');
+      goToHome()
     } catch (error) {
-      console.log(error);
-      toast.error('Please check your Credentials');
+      toast.error(error.message.replace('Firebase: Error', ''));
     }
+    setLoading(false)
   };
 
   const googleSignIn = async () => {
     let res = await GoogleSignInAPI();
-    console.log(res);
+    goToHome()
   };
 
   return (
@@ -51,17 +55,17 @@ export default function LoginComponent() {
           />
         </div>
         <button className="login-btn" onClick={login}>
-          Sign in
+          {loading ? "loading..." : "Sign In"}
         </button>
       </div>
       <hr className="hr-text" data-content="or" />
       <div className="google-btn-container">
-        <GoogleButton
-          label="Sign up with Google"
-          onClick={googleSignIn}
-        />
+        <GoogleButton label="Sign up with Google" onClick={googleSignIn} />
         <p className="go-to-signup">
-          New to LinkedIn? <span className="join-now" onClick={goToRegister}>Join now</span>
+          New to LinkedIn?{" "}
+          <span className="join-now" onClick={goToRegister}>
+            Join now
+          </span>
         </p>
       </div>
     </div>
