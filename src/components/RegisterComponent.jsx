@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import LinkedinLogo from '../assets/linkedinLogo.png'
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import '../Sass/LoginComponents.scss';
+import '../Sass/LoginComponent.scss';
 import { RegisterAPI } from '../api/AuthAPI';
 
 export default function RegisterComponent() {

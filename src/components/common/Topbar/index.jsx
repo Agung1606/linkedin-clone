@@ -14,11 +14,16 @@ import {
   AiOutlineBell,
 } from "react-icons/ai";
 import { BsBriefcase } from 'react-icons/bs'
+import { useNavigate } from 'react-router-dom'
 
 export default function Topbar() {
+  // routes
+  const navigate = useNavigate();
+  const goToHome = () => navigate('/home')
+  const goToConnections = () => navigate("/connections");
+
   // useState hooks
   const [isSearch, setIsSearch] = useState(false)
-
   // handle hooks
   const handleIsSearch = () => setIsSearch(!isSearch);
 
@@ -34,18 +39,18 @@ export default function Topbar() {
             className="react-icon"
             onClick={handleIsSearch}
           />
-          <AiOutlineHome size={30} className="react-icon" />
-          <AiOutlineUserSwitch size={30} className="react-icon" />
+          <AiOutlineHome size={30} className="react-icon" onClick={goToHome} />
+          <AiOutlineUserSwitch
+            size={30}
+            className="react-icon"
+            onClick={goToConnections}
+          />
           <BsBriefcase size={30} className="react-icon" />
           <AiOutlineMessage size={30} className="react-icon" />
           <AiOutlineBell size={30} className="react-icon" />
         </div>
       )}
-      <img
-        className="user-logo"
-        src={user}
-        alt="user"
-      />
+      <img className="user-logo" src={user} alt="user" />
     </div>
   );
 }
