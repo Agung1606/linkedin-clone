@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import './index.scss'
 import ModalComponent from '../Modal';
+// api
+import { postStatus, getStatus } from '../../../api/FirestoreAPI';
 
 export default function PostUpdate() {
   // handle modal
@@ -12,23 +14,42 @@ export default function PostUpdate() {
   const [status, setStatus] = useState('');
   const handleStatus = (e) => setStatus(e.target.value);
 
+  // all status
+  const [allStatus, setAllStatus] = useState([]);
+
   // api
-  const sendStatus = () => {
-    alert('send status to firebase')
+  const sendStatus = async () => {
+    await postStatus(status)
+    closeModal()
+    setStatus('')
   };
+
+  useMemo(() => {
+    getStatus(setAllStatus)
+  }, [])
 
   return (
     <div className="post-status-main">
       <div className="post-status">
-        <button onClick={showModal} className='open-post-modal'>Start a Post</button>
+        <button onClick={showModal} className="open-post-modal">
+          Start a Post
+        </button>
       </div>
-      <ModalComponent 
+      <ModalComponent
         isModalOpen={isModalOpen}
         closeModal={closeModal}
         status={status}
         handleStatus={handleStatus}
         sendStatus={sendStatus}
       />
+
+      <div>
+        {allStatus.map((post) => (
+          <div key={post.id}>
+            <p>{post.status}</p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
