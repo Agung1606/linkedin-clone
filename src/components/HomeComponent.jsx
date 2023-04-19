@@ -1,10 +1,10 @@
 import React from 'react'
 import PostUpdate from './common/PostUpdate'
 
-export default function HomeComponent() {
+export default function HomeComponent({ currentUser }) {
   return (
     <div>
-      <PostUpdate />
+      <PostUpdate currentUser={currentUser} />
     </div>
   );
 }

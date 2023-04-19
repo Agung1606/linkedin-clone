@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import '../Sass/LoginComponent.scss'
 import { LoginAPI, GoogleSignInAPI } from '../api/AuthAPI'
+import { postUserData } from "../api/FirestoreAPI";
 import LinkedinLogo from '../assets/linkedinLogo.png'
 import GoogleButton from "react-google-button";
 import { toast } from "react-toastify";
@@ -17,6 +18,7 @@ export default function LoginComponent() {
     setLoading(true)
     try {
       let res = await LoginAPI(credentials.email, credentials.password);
+      localStorage.setItem('userEmail', res.user.email);
       toast.success('Sign In to Linkedin');
       goToHome()
     } catch (error) {
@@ -27,6 +29,10 @@ export default function LoginComponent() {
 
   const googleSignIn = async () => {
     let res = await GoogleSignInAPI();
+    postUserData({
+      name: res.user.displayName,
+      email: res.user.email
+    })
     goToHome()
   };
 

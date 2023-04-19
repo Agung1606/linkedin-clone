@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import '../Sass/LoginComponent.scss';
 import { RegisterAPI } from '../api/AuthAPI';
+import { postUserData } from '../api/FirestoreAPI';
 
 export default function RegisterComponent() {
     const navigate = useNavigate();
@@ -16,6 +17,11 @@ export default function RegisterComponent() {
         setLoading(true)
         try {
             let res = await RegisterAPI(credentials.email, credentials.password);
+            localStorage.setItem("userEmail", res.user.email);
+            postUserData({
+              name: credentials.name,
+              email: credentials.email
+            })
             toast.success('Account Created!');
             goToHome()
         } catch (error) {

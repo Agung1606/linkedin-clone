@@ -1,32 +1,46 @@
 import React, { useMemo, useState } from 'react'
 import './index.scss'
 import ModalComponent from '../Modal';
+import PostsCard from '../PostsCard';
 // api
-import { postStatus, getStatus } from '../../../api/FirestoreAPI';
+import { postStatus, getPostsStatus } from '../../../api/FirestoreAPI';
+// time stamp
+import { getCurrentTimeStamp } from '../../../helper/useMoment';
+// helper
+import { getUniqueID } from '../../../helper/getUniqueId';
 
-export default function PostUpdate() {
+export default function PostUpdate({ currentUser }) {
+  // user email
+  const userEmail = localStorage.getItem("userEmail");
   // handle modal
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   // handle status
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState("");
   const handleStatus = (e) => setStatus(e.target.value);
 
   // all status
-  const [allStatus, setAllStatus] = useState([]);
+  const [allPostStatus, setAllPostStatus] = useState([]);
 
   // api
   const sendStatus = async () => {
-    await postStatus(status)
-    closeModal()
-    setStatus('')
+    let object = {
+      status,
+      userEmail,
+      timeStamp: getCurrentTimeStamp("LLL"),
+      userName: currentUser.name,
+      postID: getUniqueID(),
+    };
+    await postStatus(object);
+    closeModal();
+    setStatus("");
   };
 
   useMemo(() => {
-    getStatus(setAllStatus)
-  }, [])
+    getPostsStatus(setAllPostStatus);
+  }, []);
 
   return (
     <div className="post-status-main">
@@ -44,10 +58,8 @@ export default function PostUpdate() {
       />
 
       <div>
-        {allStatus.map((post) => (
-          <div key={post.id}>
-            <p>{post.status}</p>
-          </div>
+        {allPostStatus.map((post) => (
+          <PostsCard key={post.id} post={post} />
         ))}
       </div>
     </div>
