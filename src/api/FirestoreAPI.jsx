@@ -8,7 +8,8 @@ import {
   doc,
   updateDoc,
   deleteDoc,
-  setDoc
+  setDoc,
+  orderBy
 } from "firebase/firestore";
 import { toast } from 'react-toastify';
 
@@ -38,7 +39,8 @@ export const postUserData = (object) => {
 
 // get status
 export const getPostsStatus = async (setAllStatus) => {
-  onSnapshot(postsRef, (response) => {
+  const q = query(postsRef, orderBy('timeStamp'))
+  onSnapshot(q, (response) => {
     setAllStatus(
       response.docs.map((post) => {
         return { ...post.data(), id: post.id };

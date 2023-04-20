@@ -28,10 +28,11 @@ export default function PostUpdate({ currentUser }) {
   const sendStatus = async () => {
     let object = {
       status,
-      postID: getUniqueID(),
       timeStamp: getCurrentTimeStamp("LLL"),
       userEmail: currentUser.email,
       userName: currentUser.name,
+      postID: getUniqueID(),
+      userID: currentUser.id,
     };
     await postStatus(object);
     closeModal();

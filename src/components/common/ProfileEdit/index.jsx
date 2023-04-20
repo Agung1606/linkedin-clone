@@ -29,6 +29,7 @@ export default function ProfileEdit({ currentUser, handleIsEdit }) {
           type="text"
           placeholder="Name"
           name="name"
+          value={editInputs.name}
         />
         {/* headline */}
         <input
@@ -37,6 +38,7 @@ export default function ProfileEdit({ currentUser, handleIsEdit }) {
           type="text"
           placeholder="Headline"
           name="headline"
+          value={editInputs.headline}
         />
         {/* location */}
         <input
@@ -45,6 +47,7 @@ export default function ProfileEdit({ currentUser, handleIsEdit }) {
           type="text"
           placeholder="Location"
           name="location"
+          value={editInputs.location}
         />
         {/* company */}
         <input
@@ -53,6 +56,7 @@ export default function ProfileEdit({ currentUser, handleIsEdit }) {
           type="text"
           placeholder="Company"
           name="company"
+          value={editInputs.company}
         />
         {/* college */}
         <input
@@ -61,6 +65,7 @@ export default function ProfileEdit({ currentUser, handleIsEdit }) {
           type="text"
           placeholder="College"
           name="college"
+          value={editInputs.college}
         />
       </div>
       <div className="save-btn-container">
