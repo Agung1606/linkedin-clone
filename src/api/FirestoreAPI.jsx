@@ -1,9 +1,20 @@
 import { firestore } from '../firebaseConfig'
-import { addDoc, collection, onSnapshot, query, where } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  query,
+  where,
+  doc,
+  updateDoc,
+  deleteDoc,
+  setDoc
+} from "firebase/firestore";
 import { toast } from 'react-toastify';
 
 let postsRef = collection(firestore, "posts");
 let userRef = collection(firestore,"users");
+let likeRef = collection(firestore, 'likes');
 
 // store a new post
 export const postStatus = async (object) => {
@@ -82,4 +93,31 @@ export const getCurrentUser = (setCurrentUser) => {
       })[0]
     );
   });
+};
+
+// edit profile
+export const editProfile = async (userID, payload) => {
+  let userToEdit = doc(userRef, userID);
+
+  updateDoc(userToEdit, payload)
+    .then(() => {
+      toast.success('Profile has been updated successfully')
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+};
+
+// like post
+export const likePost = (userID, postID, liked) => {
+  try {
+    let docToLike = doc(likeRef, `${userID}_${postID}`);
+    if(liked) {
+      deleteDoc(docToLike);
+    } else {
+      setDoc(docToLike, { userID, postID })
+    }
+  } catch (error) {
+    console.log(error);
+  }
 };

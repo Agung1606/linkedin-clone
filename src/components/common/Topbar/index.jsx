@@ -4,6 +4,7 @@ import LinkedinLogo from '../../../assets/linkedinLogo.png'
 import user from '../../../assets/user.png'
 
 import SearchUsers from '../SearchUsers'
+import ProfilePopup from '../ProfilePopup'
 
 // icons
 import {
@@ -20,15 +21,22 @@ export default function Topbar() {
   // routes
   const navigate = useNavigate();
   const goToHome = () => navigate('/home')
-  const goToConnections = () => navigate("/connections");
+  const goToConnections = () => navigate("/connections")
 
   // useState hooks
   const [isSearch, setIsSearch] = useState(false)
+  const [popupVisible, setPopupVisible] = useState(false)
   // handle hooks
-  const handleIsSearch = () => setIsSearch(!isSearch);
+  const handleIsSearch = () => setIsSearch(!isSearch)
+  const handlePopupVisible = () => setPopupVisible(!popupVisible)
 
   return (
     <div className="topbar-main">
+      {popupVisible && (
+        <div className="popup-position">
+          <ProfilePopup />
+        </div>
+      )}
       <img className="linkedin-logo" src={LinkedinLogo} alt="linkedin-logo" />
       {isSearch ? (
         <SearchUsers handleIsSearch={handleIsSearch} />
@@ -50,7 +58,12 @@ export default function Topbar() {
           <AiOutlineBell size={30} className="react-icon" />
         </div>
       )}
-      <img className="user-logo" src={user} alt="user" />
+      <img
+        className="user-logo"
+        src={user}
+        alt="user"
+        onClick={handlePopupVisible}
+      />
     </div>
   );
 }

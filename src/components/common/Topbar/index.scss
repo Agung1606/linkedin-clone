@@ -6,6 +6,13 @@
     align-items: center;
 }
 
+.popup-position {
+    position: absolute;
+    right: 10px;
+    top: 65px;
+    z-index: 99;
+}
+
 .linkedin-logo {
     width: 50px;
     margin-left: 20px;
