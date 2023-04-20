@@ -22,9 +22,15 @@ export default function ProfileCard({ currentUser, handleIsEdit }) {
   return (
     <>
       <div className="profile-card">
-        <div className="edit-btn">
-          <HiOutlinePencil onClick={handleIsEdit} size={20} />
-        </div>
+        {currentUser.id === location?.state?.id && (
+          <div className="edit-btn">
+            <HiOutlinePencil
+              className="edit-icon"
+              onClick={handleIsEdit}
+              size={20}
+            />
+          </div>
+        )}
         <div className="profile-info">
           <div>
             <h3 className="username">
@@ -37,7 +43,24 @@ export default function ProfileCard({ currentUser, handleIsEdit }) {
                 ? currentUser.headline
                 : currentProfile?.headline}
             </p>
-            <p>{currentUser.location}</p>
+            <p className="location">
+              {Object.values(currentProfile).length === 0
+                ? `${currentUser?.city}, ${currentUser?.country}`
+                : `${currentProfile?.city}, ${currentProfile?.country}`}
+            </p>
+            <a
+              className="website"
+              target="_blank"
+              href={
+                Object.values(currentProfile).length === 0
+                  ? currentUser.website
+                  : currentProfile?.website
+              }
+            >
+              {Object.values(currentProfile).length === 0
+                ? currentUser.website
+                : currentProfile?.website}
+            </a>
           </div>
 
           <div className="right-info">
@@ -53,6 +76,21 @@ export default function ProfileCard({ currentUser, handleIsEdit }) {
             </p>
           </div>
         </div>
+        {/* about */}
+        <p className="about-me">
+          {Object.values(currentProfile).length === 0
+            ? currentUser?.about
+            : currentProfile?.about}
+        </p>
+        {/* skill */}
+        <p className="skills">
+          {(currentUser?.skills || currentProfile?.skills) && (
+            <span className="skill-label">Skills: </span>
+          )}
+          {Object.values(currentProfile).length === 0
+            ? currentUser.skills
+            : currentProfile?.skills}
+        </p>
       </div>
       {/* user posts */}
       <div className="post-status-main">
