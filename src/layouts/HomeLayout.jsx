@@ -11,7 +11,6 @@ export default function HomeLayout() {
     getCurrentUser(setCurrentUser)
   }, []);
 
-  console.log(currentUser.id);
   return (
     <div>
         <Topbar />
