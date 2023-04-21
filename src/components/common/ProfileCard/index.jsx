@@ -4,16 +4,25 @@ import PostsCard from '../PostsCard';
 import { useLocation } from 'react-router-dom';
 // api
 import { getSinglePostStatus, getSingleUser } from '../../../api/FirestoreAPI';
+import { uploadImg } from '../../../api/ImageUpload';
 // icons
 import { HiOutlinePencil } from 'react-icons/hi'
 
 export default function ProfileCard({ currentUser, handleIsEdit }) {
   const location = useLocation();
-  // all post status
+  // hooks
   const [allPostStatus, setAllPostStatus] = useState([]);
-  // current profile
   const [currentProfile, setCurrentProfile] = useState({});
+  const [currentImg, setCurrentImg] = useState({});
 
+  // function
+  const getImage = (e) => {
+    setCurrentImg(e.target.files[0]);
+  };
+
+  const uploadImage = () => {
+    uploadImg(currentImg)
+  };
   useMemo(() => {
     if(location?.state?.id) getSinglePostStatus(setAllPostStatus, location?.state?.id)
     if(location?.state?.email) getSingleUser(setCurrentProfile, location?.state?.email)
@@ -22,6 +31,8 @@ export default function ProfileCard({ currentUser, handleIsEdit }) {
   return (
     <>
       <div className="profile-card">
+        <input type="file" onChange={getImage} />
+        <button onClick={uploadImage}>Upload</button>
         {currentUser.id === location?.state?.id && (
           <div className="edit-btn">
             <HiOutlinePencil
